@@ -80,7 +80,7 @@ func main() {
 
 					data, err := bot.RunBot(origin, dest, token)
 					if err != nil {
-						fmt.Println("hiero", err)
+						//fmt.Println("hiero", err)
 						ctx.JSON(500, globals.API_Resp{
 							Success: false,
 							Data: struct{ Message string }{
