@@ -20,8 +20,8 @@ This is something i have programmed for a few fellows on my school. So that it h
 GET https://distance.pix4.dev/api/calculate/distance/:origin/:dest/<optional>?token=your_token
 
 [EXAMPLE REQUEST]
-GET https://distance.pix4.dev/api/calculate/distance/Doetinchem, Nederland/Tivolilaan 40, 6824 BW Arnhem, Nederland
+GET https://distance.pix4.dev/api/calculate/distance/Amsterdam, Nederland/Tivolilaan 40, 6824 BW Arnhem, Nederland
 
 [API RESPONSE EXAMPLE]
-{"Success":true,"Data":{"Duration":"33.29 min","Distance":"33.96 KM"}}
+{"Success":true,"Data":{"Duration":"81.95 min","Distance":"101.01 KM"}}
 ```
