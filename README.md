@@ -1,7 +1,7 @@
 # Distance Matrix Wrapper API
-Calculate the distance between two variating locations in KM, also provides an duration overview in minutes.
+Calculate the distance between two variating locations in KM, also provides a duration overview in minutes.
 
-**This is an wrapper, by default this API uses it's own API key. When the quota exceeds the limit, you may provide your own token by adding querystring 'token' to our API. Below i've mentioned the website from where to get your API key**
+**This is a wrapper, by default this API uses it's own API key. When the quota exceeds the limit, you may provide your own token by adding querystring 'token' to our API. Below i've mentioned the website from where to get your API key**
 > openrouteservice.org
 
 ### Notice
