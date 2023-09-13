@@ -76,15 +76,18 @@ func main() {
 						return
 					}
 
-					data, err := bot.RunBot(origin, dest)
+					token := ctx.Query("token")
+
+					data, err := bot.RunBot(origin, dest, token)
 					if err != nil {
+						fmt.Println("hiero", err)
 						ctx.JSON(500, globals.API_Resp{
 							Success: false,
 							Data: struct{ Message string }{
 								Message: err.Error(),
 							},
 						})
-
+						return
 					}
 
 					bigBoiii := struct {

@@ -10,7 +10,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"os"
 	"time"
 )
 
@@ -65,6 +64,7 @@ func (bot *BotClient) CalculateDistance(origin, destination string, done chan<- 
 		done <- 1
 	}()
 
+	fmt.Println(bot.Token)
 	var origin_ location
 	var dest_ location
 
@@ -76,7 +76,7 @@ func (bot *BotClient) CalculateDistance(origin, destination string, done chan<- 
 	}
 
 	for i, v := range task {
-		loc, err := geocode(client, v, os.Getenv("token"))
+		loc, err := geocode(client, v, bot.Token)
 		if err != nil {
 			return DestinationData{}, err
 		}
@@ -137,7 +137,7 @@ func geocode(client *http.Client, input, token string) (location, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return location{}, fmt.Errorf("bad API response %s [%d]", resp.Status, resp.StatusCode)
+		return location{}, fmt.Errorf("%s [%d], free quota reached, provide a token as querystring named 'token'. Get a key  from 'openrouteservice.org'", resp.Status, resp.StatusCode)
 	}
 
 	data, err := io.ReadAll(resp.Body)
@@ -185,7 +185,7 @@ func matrix(client *http.Client, loc, dest location, token string) (calculateCtx
 	defer resp.Body.Close()
 
 	if resp.StatusCode != 200 {
-		return calculateCtx{}, fmt.Errorf("bad API response %s [%d]", resp.Status, resp.StatusCode)
+		return calculateCtx{}, fmt.Errorf("%s [%d], free quota reached, provide a token as querystring from 'openrouteservice.org'", resp.Status, resp.StatusCode)
 	}
 
 	ctx := &calculateCtx{}
