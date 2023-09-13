@@ -1,7 +1,7 @@
 # Distance Calculator API
 Calculate the distance between two variating locations in KM, also provides an duration overview in minutes.
 
-**This is an wrapper, when the original website goes down because of exceeded quota, then download and serve this server and drop your token into .env**
+**This is an wrapper, by default this API uses it's own API key. When the quota exceeds the limit, you may provide your own token by adding querystring 'token' to our API. Below i've mentioned the website from where to get your API key**
 > openrouteservice.org
 
 ### Notice
@@ -17,7 +17,7 @@ This is something i have programmed for a few fellows on my school. So that it h
 **Example:**
 ```
 [ROUTE]
-GET https://distance.pix4.dev/api/calculate/distance/:origin/:dest
+GET https://distance.pix4.dev/api/calculate/distance/:origin/:dest/<optional>?token=your_token
 
 [EXAMPLE REQUEST]
 GET https://distance.pix4.dev/api/calculate/distance/Doetinchem, Nederland/Tivolilaan 40, 6824 BW Arnhem, Nederland
