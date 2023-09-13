@@ -22,6 +22,8 @@ GET https://distance.pix4.dev/api/calculate/distance/:origin/:dest/<optional>?to
 [EXAMPLE REQUEST]
 GET https://distance.pix4.dev/api/calculate/distance/Amsterdam, Nederland/Tivolilaan 40, 6824 BW Arnhem, Nederland
 
+```
+```json
 [API RESPONSE EXAMPLE]
 {"Success":true,"Data":{"Duration":"81.95 min","Distance":"101.01 KM"}}
 ```
