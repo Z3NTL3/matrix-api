@@ -6,11 +6,10 @@ import (
 	vld "github.com/go-playground/validator/v10"
 )
 
-var Validator *vld.Validate
-
 type (
 	ValidatorI interface {
 		Validate(data interface{}) error
+		Engine() any
 	}
 
 	ValidatorEngine struct {
@@ -19,10 +18,14 @@ type (
 	}
 )
 
-func (v *ValidatorEngine) Validify(data interface{}) error {
+func (v *ValidatorEngine) ValidateStruct(data interface{}) error {
 	err := v.Struct(data)
 	if err != nil {
-		return fmt.Errorf("Did not match POSTAL CODE ZIP FORMAT [%s]", err.(vld.ValidationErrors)[0].Tag())
+		return fmt.Errorf("%s", err.(vld.ValidationErrors)[0].Error())
 	}
 	return nil
+}
+
+func (v *ValidatorEngine) Engine() any {
+	return v.Validate
 }

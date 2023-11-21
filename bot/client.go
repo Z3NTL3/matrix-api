@@ -13,9 +13,7 @@ import (
 	"time"
 )
 
-var (
-	Timeout time.Duration = time.Second * 13
-)
+var Timeout time.Duration = time.Second * 13
 
 type (
 	ClientI interface {
@@ -65,6 +63,7 @@ func (bot *BotClient) CalculateDistance(origin, destination string, done chan<- 
 	}()
 
 	fmt.Println(bot.Token)
+
 	var origin_ location
 	var dest_ location
 

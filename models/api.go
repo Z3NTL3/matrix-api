@@ -1,9 +1,9 @@
-package globals
+package models
 
 type (
 	API_Resp struct {
-		Success bool
-		Data    interface{}
+		Success bool        `json:"success"`
+		Data    interface{} `json:"data"`
 	}
 
 	DistanceAPI struct {

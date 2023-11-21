@@ -10,11 +10,16 @@ import (
 	"log"
 	"strconv"
 	"time"
+
 	"z3ntl3/distance-api/bot"
-	"z3ntl3/distance-api/globals"
+	"z3ntl3/distance-api/models"
+	globals "z3ntl3/distance-api/models"
 	"z3ntl3/distance-api/mw"
+	vld "z3ntl3/distance-api/validator"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 	"github.com/joho/godotenv"
 )
 
@@ -24,11 +29,15 @@ func main() {
 	}
 
 	gin.SetMode(gin.ReleaseMode)
-	app := gin.Default()
+	app := gin.New()
 	{
-		//app.RemoteIPHeaders = []string{"cf-connecting-ip"}
+		app.RemoteIPHeaders = []string{"cf-connecting-ip"}
 		app.UseH2C = true
 		app.RedirectTrailingSlash = true
+
+		binding.Validator = &vld.ValidatorEngine{
+			Validate: validator.New(),
+		}
 
 		app.Use(mw.Credits)
 
@@ -55,32 +64,24 @@ func main() {
 			api := app.Group("/api")
 			{
 				api.GET("/calculate/distance/:origin/:dest", func(ctx *gin.Context) {
-					origin, ok := ctx.Params.Get("origin")
-					if !ok {
-						ctx.JSON(400, globals.API_Resp{
-							Success: false,
-							Data: struct{ Message string }{
-								Message: "parameter origin is not even set dude?!!!!........",
-							},
-						})
-						return
+					q := models.QueryCtx{
+						Origin: ctx.Param("origin"),
+						Dest:   ctx.Param("dest"),
+						Token:  ctx.Query("token"),
 					}
-					dest, ok := ctx.Params.Get("dest")
-					if !ok {
-						ctx.JSON(400, globals.API_Resp{
+
+					if err := binding.Validator.ValidateStruct(q); err != nil {
+						ctx.JSON(500, globals.API_Resp{
 							Success: false,
 							Data: struct{ Message string }{
-								Message: "parameter dest is not even set dude?!!!!........",
+								Message: err.Error(),
 							},
 						})
 						return
 					}
 
-					token := ctx.Query("token")
-
-					data, err := bot.RunBot(origin, dest, token)
+					data, err := bot.RunBot(q.Origin, q.Dest, q.Token)
 					if err != nil {
-						//fmt.Println("hiero", err)
 						ctx.JSON(500, globals.API_Resp{
 							Success: false,
 							Data: struct{ Message string }{
